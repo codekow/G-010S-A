@@ -2,7 +2,7 @@
 
 The following instructions will help you make a backup of critical data to restore your device to original state.
 
-Anytime you are modifying firmware you run the risk of bricking your device.
+Anytime you are modifying firmware you run the risk of bricking your device. With the right skills and tools you should be able to restore this device from a brick.
 
 ## Backup / Capture Files From Device
 
@@ -52,7 +52,7 @@ scp -O ONTUSER@192.168.1.10:/tmp/dump/*  dump/ # SUGAR2A041
 
 ## Restore Firmware
 
-NOTE: These instructions have **not** been tested on inexperienced users. They are to help those familiar development have a backup for [unbricking](UNBRICKING.md).
+NOTE: These instructions have **not** been tested on inexperienced users. They are to help those familiar with device hacking and development have a backup for [unbricking](UNBRICKING.md).
 
 In short, good news! If you backed up your firmware, you should be able to recover it (you just might not know how to restore it).
 
@@ -88,6 +88,8 @@ u-boot.env
 
 Default Restore Functions
 
+*Do not use to restore your backup*
+
 ```sh
 setenv a0_image '3FE46542AAAA_a0.bin'
 setenv a2_image '3FE46542AAAA_a2.bin'
@@ -115,17 +117,17 @@ setenv update_uboot_env 'run load_uboot_env && run import_uboot_env && saveenv'
 
 ### Restore From Captured Files
 
-| Offset   | Length   | Description |
-|----------|----------|-------------|
-| 0x000000 | 0x040000 | uboot       |
-| 0x040000 | 0x080000 | uboot_env   |
-| 0x0C0000 | 0x600000 | image0      |
-| 0x6C0000 | 0x600000 | image1      |
-| 0xCC0000 | 0x100000 | configfs    |
-| 0xDC0000 | 0x210000 | logfs       |
-| 0xFD0000 | 0x010000 | ri          |
-| 0xFE0000 | 0x010000 | sfp         |
-| 0xFF0000 | 0x010000 | ribackup    |
+| Offset   | Length   | Backup | Description | Default Name          |
+|----------|----------|--------|-------------|-----------------------|
+| 0x000000 | 0x040000 | mtd1   | uboot       | n/a                   |
+| 0x040000 | 0x080000 | mtd2   | uboot_env   | u-boot.env            |
+| 0x0C0000 | 0x600000 | mtd3   | image0      | g010sa-squashfs.image |
+| 0x6C0000 | 0x600000 | mtd4   | image1      | g010sa-squashfs.image |
+| 0xCC0000 | 0x100000 | mtd5   | configfs    | configfs.image        |
+| 0xDC0000 | 0x210000 | mtd6   | logfs       | logfs.image           |
+| 0xFD0000 | 0x010000 | mtd7   | ri          | 3FE46542AAAA_ri.bin   |
+| 0xFE0000 | 0x010000 | mtd8   | sfp         | 3FE46542AAAA_a2.bin   |
+| 0xFF0000 | 0x010000 | mtd9   | ribackup    | 3FE46542AAAA_ri.bin   |
 
 Set TFTP Path
 
